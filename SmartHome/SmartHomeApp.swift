@@ -9,9 +9,20 @@ import SwiftUI
 
 @main
 struct SmartHomeApp: App {
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            NavigationView {
+                if isLoggedIn {
+                    MainView()
+                } else {
+                    LoginView()
+                }
+            }
         }
     }
 }
+
+
+
