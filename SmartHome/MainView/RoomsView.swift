@@ -8,41 +8,47 @@
 import SwiftUI
 
 struct RoomsView: View {
-    @ObservedObject var viewModel: HomeViewModel
+    var viewModel: HomeViewModel
+    
+    let rooms = ["Master Bedroom", "Living Room", "Kitchen", "Balcony"]
+    
+    let columns = [
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible())
+    ]
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text("Rooms")
-                .font(.title2)
-                .bold()
-                .padding(.bottom, 5)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 15) {
-                    ForEach(viewModel.rooms) { room in
-                        RoomCard(name: room.name, image: room.iconName)
+        NavigationView {
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 16) {
+                    ForEach(rooms, id: \.self) { room in
+                        RoomCard(roomName: room)
                     }
                 }
+                .padding()
             }
         }
     }
 }
 
 struct RoomCard: View {
-    var name: String
-    var image: String
+    let roomName: String
     
     var body: some View {
-        VStack {
-            Image(systemName: image)
+        VStack(alignment: .leading) {
+            Image("placeholder") 
                 .resizable()
-                .frame(width: 40, height: 40)
-                .foregroundColor(.white)
-            Text(name)
-                .foregroundColor(.white)
+                .scaledToFill()
+                .frame(height: 120)
+                .clipped()
+            
+            Text(roomName)
+                .font(.headline)
+                .padding([.leading, .bottom, .trailing], 8)
         }
-        .frame(width: 120, height: 120)
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color.blue))
+        .background(Color.white)
+        .cornerRadius(16)
+        .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
     }
 }
 
