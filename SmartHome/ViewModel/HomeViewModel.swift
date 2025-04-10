@@ -14,11 +14,11 @@ class HomeViewModel: ObservableObject {
         Device(name: "Air Conditioner", isOn: false, tempature: 23)
     ]
     
-    @Published var rooms: [Room] = [
-           Room(name: "Living Room", iconName: "sofa"),
-           Room(name: "Bedroom", iconName: "bed.double"),
-           Room(name: "Kitchen", iconName: "flame")
-       ]
+    @Published var rooms: [String] = []
+    
+    func addRoom() {
+            rooms.append("New Room \(rooms.count + 1)")
+        }
     
     func toggleDevice(_ device: Device) {
         if let index = devices.firstIndex(where: {$0.id == device.id}) {
