@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RoomsView: View {
     @ObservedObject var viewModel: HomeViewModel
+    @State private var showAddRoomSheet = false
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -18,13 +19,16 @@ struct RoomsView: View {
     var body: some View {
         LazyVGrid(columns: columns, spacing: 16) {
             ForEach(viewModel.rooms, id: \.self) { room in
-                RoomCard(roomName: "kitchen")
+                RoomCard(roomName: room)
             }
             AddRoomCard {
-                viewModel.addRoom()
+                showAddRoomSheet = true
             }
         }
         .padding()
+        .sheet(isPresented: $showAddRoomSheet) {
+                    AddRoomSheetView(viewModel: viewModel, isPresented: $showAddRoomSheet)
+        }
     }
 }
 

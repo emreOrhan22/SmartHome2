@@ -16,9 +16,11 @@ class HomeViewModel: ObservableObject {
     
     @Published var rooms: [String] = []
     
-    func addRoom() {
-            rooms.append("New Room \(rooms.count + 1)")
-        }
+    func addRoom(name: String, type: String, icon: String) {
+        // Geçici olarak sadece adını ekliyoruz
+        rooms.append(name)
+        // İleride type ve icon’u da bir model ile birlikte kullanacağız
+    }
     
     func toggleDevice(_ device: Device) {
         if let index = devices.firstIndex(where: {$0.id == device.id}) {

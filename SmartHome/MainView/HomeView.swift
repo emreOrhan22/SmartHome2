@@ -19,19 +19,19 @@ struct HomeView: View {
                         .frame(height: 120)
                         .padding(.horizontal)
                 HStack(spacing: 0) {
-                  ForEach(["Room", "Devices"], id: \.self) { tab in
-                  Button(action: {
-                    selectedTab = tab
-                    }) {
-                    Text(tab)
-                    .fontWeight(.semibold)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(selectedTab == tab ? Color.purple.opacity(0.15) : Color.clear)
-                    .cornerRadius(10)
+                    ForEach(["Room", "Devices"], id: \.self) { tab in
+                        Button(action: {
+                            selectedTab = tab
+                        }) {
+                            Text(tab)
+                                .fontWeight(.semibold)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(selectedTab == tab ? Color.purple.opacity(0.15) : Color.clear)
+                                .cornerRadius(10)
+                        }
                     }
-                    }
-                    }
+            }
                     .background(Color(.systemGray5))
                     .clipShape(RoundedRectangle(cornerRadius: 10))
                     .padding(.horizontal)
