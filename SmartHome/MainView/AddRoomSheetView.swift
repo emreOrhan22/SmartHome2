@@ -13,10 +13,8 @@ struct AddRoomSheetView: View {
     
     @State private var roomName: String = ""
     @State private var selectedType: String = "Kitchen"
-    @State private var selectedIcon: String = "kitchen_icon" 
 
     let roomTypes = ["Kitchen", "Living Room", "Bedroom", "Bathroom", "Balcony"]
-    let icons = ["kitchen_icon", "living_icon", "bed_icon", "bath_icon", "balcony_icon"]
     
     var body: some View {
         NavigationView {
@@ -33,20 +31,6 @@ struct AddRoomSheetView: View {
                     }
                     .pickerStyle(.menu)
                 }
-
-                Section(header: Text("Icon")) {
-                    Picker("Select Icon", selection: $selectedIcon) {
-                        ForEach(icons, id: \.self) { icon in
-                            HStack {
-                                Image(icon)
-                                    .resizable()
-                                    .frame(width: 24, height: 24)
-                                Text(icon)
-                            }
-                        }
-                    }
-                    .pickerStyle(.menu)
-                }
             }
             .navigationTitle("Add Room")
             .navigationBarItems(
@@ -54,11 +38,23 @@ struct AddRoomSheetView: View {
                     isPresented = false
                 },
                 trailing: Button("Save") {
-                    viewModel.addRoom(name: roomName, type: selectedType, icon: selectedIcon)
+                    let icon = getIconName(for: selectedType)
+                    viewModel.addRoom(name: roomName, type: selectedType, iconName: icon)
                     isPresented = false
                 }
                 .disabled(roomName.isEmpty)
             )
+        }
+    }
+
+    func getIconName(for roomType: String) -> String {
+        switch roomType.lowercased() {
+        case "kitchen": return "kitchenImage"
+        case "living room": return "livingRoomImage"
+        case "bathroom": return "bathroomImage"
+        case "bedroom": return "bedroomImage"
+        case "balcony": return "balconyImage"
+        default: return "defaultRoomImage"
         }
     }
 }

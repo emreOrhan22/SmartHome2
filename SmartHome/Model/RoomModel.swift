@@ -7,8 +7,10 @@
 
 import Foundation
 
-struct Room: Identifiable {
+struct Room: Identifiable, Codable, Equatable {
     var id = UUID()
     var name: String
+    var type: String  
     var iconName: String
 }
+

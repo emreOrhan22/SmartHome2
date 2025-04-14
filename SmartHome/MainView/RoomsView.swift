@@ -18,8 +18,8 @@ struct RoomsView: View {
     
     var body: some View {
         LazyVGrid(columns: columns, spacing: 16) {
-            ForEach(viewModel.rooms, id: \.self) { room in
-                RoomCard(roomName: room)
+            ForEach(viewModel.rooms) { room in
+                RoomCard(room: room)
             }
             AddRoomCard {
                 showAddRoomSheet = true

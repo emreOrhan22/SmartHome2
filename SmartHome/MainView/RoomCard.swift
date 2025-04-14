@@ -8,32 +8,38 @@
 import SwiftUI
 
 struct RoomCard: View {
-    let roomName: String
-    
+    let room: Room
+
     var body: some View {
-        VStack(alignment: .leading) {
-            Image("placeholder")
+        VStack(alignment: .leading, spacing: 0) {
+            Image(room.iconName)
                 .resizable()
                 .scaledToFill()
-                .frame(height: 120)
+                .frame(height: 130)
                 .clipped()
-            
-            Text(roomName)
+                .cornerRadius(12)
+                .padding(.top, 4) 
+                .padding(.horizontal, 8)
+                .padding(.bottom, 12)
+
+            Text(room.name)
                 .font(.headline)
-                .padding([.leading, .bottom, .trailing], 8)
+                .padding([.leading, .bottom, .trailing], 12)
         }
+        .frame(height: 200)
         .background(Color.white)
         .cornerRadius(16)
         .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
     }
 }
 
+
 struct AddRoomCard: View {
     var onTap: () -> Void
-    
+
     var body: some View {
         Button(action: onTap) {
-            VStack {
+            VStack(spacing: 12) {
                 Image(systemName: "plus.circle.fill")
                     .resizable()
                     .frame(width: 40, height: 40)
@@ -41,15 +47,16 @@ struct AddRoomCard: View {
                 Text("Add Room")
                     .fontWeight(.medium)
             }
-            .frame(maxWidth: .infinity, minHeight: 120)
-            .background(Color.white)
-            .cornerRadius(16)
-            .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding()
         }
+        .frame(height: 200)
+        .background(Color.white)
+        .cornerRadius(16)
+        .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
     }
 }
 
-
 #Preview {
-    RoomCard(roomName: "Kitchen")
+    RoomCard(room: Room(name: "Kitchen", type: "Kitchen", iconName: "kitchenImage"))
 }

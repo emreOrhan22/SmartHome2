@@ -14,6 +14,20 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             ScrollView {
+                HStack {
+                    Text("Family Members")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                    
+                    Spacer()
+                    
+                    HStack(spacing: -10) {
+                        InitialAvatarView(name: "Simay Çevik")
+                        InitialAvatarView(name: "Emre Orhan")
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.bottom, 4)
                 VStack(alignment: .leading, spacing: 20) {
                     LocationView()
                         .frame(height: 120)
