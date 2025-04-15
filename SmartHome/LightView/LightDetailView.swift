@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct LightDetailView: View {
-    @State private var isOn: Bool = true
-    @State private var brightness: Double = 0.5
-    @State private var selectedColor: Color = .yellow
+    @State private var brightnessLevel: Int = 0 // 0 = Kapalı, 3 = En parlak
     
-    let presetColors: [Color] = [.red, .orange, .yellow, .green, .blue, .purple, .pink, .white]
+    var lampImage: String = "Lamp" // gönderdiğin görselin ismi (Lamp.png)
 
     var body: some View {
         VStack(spacing: 30) {
@@ -21,85 +19,82 @@ struct LightDetailView: View {
                 .bold()
                 .frame(maxWidth: .infinity, alignment: .center)
                 .padding(.top, 10)
-                .padding(.horizontal)
-            Image("lightIcon")
-                .renderingMode(.template)
+
+            Image(lampImage)
                 .resizable()
-                .aspectRatio(contentMode: .fill)
-                .frame(width: 150, height: 150)
-                .foregroundColor(isOn ? selectedColor : .gray)
-                .overlay(
-                    Image("lightIcon")
-                        .renderingMode(.template)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 150, height: 150)
-                        .foregroundColor(.black)
-                        .opacity(0.2)
-                )
-            Button(action: {
-                isOn.toggle()
-            }) {
-                Text(isOn ? "On" : "Off")
-                    .foregroundColor(.black)
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 30)
-                    .background(Color(.systemGray5))
-                    .cornerRadius(12)
-            }
-            VStack(alignment: .leading, spacing: 10) {
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 200, height: 200)
+                .opacity(getLampOpacity())
+                .shadow(color: getGlowColor().opacity(getGlowStrength()), radius: 40)
+
+            VStack(spacing: 20) {
                 Text("Brightness")
                     .font(.headline)
                 
-                HStack {
-                    Image(systemName: "sun.min.fill")
-                        .foregroundColor(.gray)
-                    
-                    Slider(value: $brightness, in: 0...1)
-                        .accentColor(selectedColor) 
-                    
-                    Image(systemName: "sun.max.fill")
-                        .foregroundColor(.gray)
-                }
-
-                Text("\(Int(brightness * 100))%")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                    .frame(maxWidth: .infinity, alignment: .center)
-            }
-            .padding(.horizontal)
-            VStack(alignment: .leading, spacing: 10) {
-                Text("Color")
-                    .font(.headline)
-                HStack(spacing: 12) {
-                    ForEach(presetColors, id: \.self) { color in
+                HStack(spacing: 20) {
+                    ForEach(0..<4) { index in
                         Circle()
-                            .fill(color)
-                            .frame(width: 35, height: 35)
+                            .fill(index == 0 ? Color.gray : Color.yellow)
+                            .frame(width: 30, height: 30)
+                            .opacity(index == brightnessLevel ? 1.0 : 0.3)
                             .overlay(
                                 Circle()
-                                    .stroke(Color.black, lineWidth: selectedColor == color ? 3 : 1)
-                                    .scaleEffect(selectedColor == color ? 1.15 : 1.0)
-                                    .animation(.easeInOut, value: selectedColor)
-                                
+                                    .stroke(Color.black, lineWidth: index == brightnessLevel ? 2 : 0)
                             )
                             .onTapGesture {
-                                selectedColor = color
+                                brightnessLevel = index
                             }
                     }
                 }
+                
+                Text(brightnessDescription())
+                    .font(.caption)
+                    .foregroundColor(.gray)
             }
-            .padding(.horizontal)
-
 
             Spacer()
         }
-        .padding(.top)
+        .padding()
         .navigationBarTitleDisplayMode(.inline)
         .background(Color.white.ignoresSafeArea())
     }
-}
 
+    // MARK: - Helper Functions
+
+    func getLampOpacity() -> Double {
+        switch brightnessLevel {
+        case 0: return 0.2
+        case 1: return 0.5
+        case 2: return 0.75
+        case 3: return 1.0
+        default: return 1.0
+        }
+    }
+
+    func getGlowColor() -> Color {
+        return Color.yellow
+    }
+
+    func getGlowStrength() -> Double {
+        switch brightnessLevel {
+        case 0: return 0.0
+        case 1: return 0.3
+        case 2: return 0.6
+        case 3: return 1.0
+        default: return 0.0
+        }
+    }
+
+    func brightnessDescription() -> String {
+        switch brightnessLevel {
+        case 0: return "Off"
+        case 1: return "Low Brightness"
+        case 2: return "Medium Brightness"
+        case 3: return "Full Brightness"
+        default: return ""
+        }
+    }
+}
 
 #Preview {
     LightDetailView()
