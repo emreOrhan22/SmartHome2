@@ -5,12 +5,12 @@
 //  Created by Emre on 15.04.2025.
 //
 
+
 import SwiftUI
 
 struct LightDetailView: View {
-    @State private var brightnessLevel: Int = 0 // 0 = Kapalı, 3 = En parlak
-    
-    var lampImage: String = "Lamp" // gönderdiğin görselin ismi (Lamp.png)
+    @StateObject var viewModel = LightDetailViewModel()
+    var lampImage: String = "Lamp"
 
     var body: some View {
         VStack(spacing: 30) {
@@ -24,75 +24,40 @@ struct LightDetailView: View {
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 200, height: 200)
-                .opacity(getLampOpacity())
-                .shadow(color: getGlowColor().opacity(getGlowStrength()), radius: 40)
+                .opacity(viewModel.getLampOpacity())
+                .shadow(color: viewModel.getGlowColor().opacity(viewModel.getGlowStrength()), radius: 40)
 
-            VStack(spacing: 20) {
-                Text("Brightness")
+            Button(action: { viewModel.toggleLamp() }) {
+                Text(viewModel.isLampOn ? "Turn Off" : "Turn On")
                     .font(.headline)
-                
-                HStack(spacing: 20) {
-                    ForEach(0..<4) { index in
-                        Circle()
-                            .fill(index == 0 ? Color.gray : Color.yellow)
-                            .frame(width: 30, height: 30)
-                            .opacity(index == brightnessLevel ? 1.0 : 0.3)
-                            .overlay(
-                                Circle()
-                                    .stroke(Color.black, lineWidth: index == brightnessLevel ? 2 : 0)
-                            )
-                            .onTapGesture {
-                                brightnessLevel = index
-                            }
-                    }
-                }
-                
-                Text(brightnessDescription())
-                    .font(.caption)
-                    .foregroundColor(.gray)
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .background(viewModel.isLampOn ? Color.red : Color.green)
+                    .cornerRadius(12)
             }
+            .padding(.horizontal)
+
+            VStack(spacing: 15) {
+                Text("Brightness Level: \(viewModel.brightnessLevel)")
+                    .font(.subheadline)
+
+                Slider(value: Binding(get: { Double(viewModel.brightnessLevel) },
+                                      set: { viewModel.brightnessLevel = Int($0.rounded()) }),
+                       in: 0...100, step: 1)
+                    .accentColor(.yellow)
+            }
+            .padding(.horizontal)
+
+            Text(viewModel.brightnessDescription())
+                .font(.caption)
+                .foregroundColor(.gray)
 
             Spacer()
         }
         .padding()
         .navigationBarTitleDisplayMode(.inline)
         .background(Color.white.ignoresSafeArea())
-    }
-
-    // MARK: - Helper Functions
-
-    func getLampOpacity() -> Double {
-        switch brightnessLevel {
-        case 0: return 0.2
-        case 1: return 0.5
-        case 2: return 0.75
-        case 3: return 1.0
-        default: return 1.0
-        }
-    }
-
-    func getGlowColor() -> Color {
-        return Color.yellow
-    }
-
-    func getGlowStrength() -> Double {
-        switch brightnessLevel {
-        case 0: return 0.0
-        case 1: return 0.3
-        case 2: return 0.6
-        case 3: return 1.0
-        default: return 0.0
-        }
-    }
-
-    func brightnessDescription() -> String {
-        switch brightnessLevel {
-        case 0: return "Off"
-        case 1: return "Low Brightness"
-        case 2: return "Medium Brightness"
-        case 3: return "Full Brightness"
-        default: return ""
-        }
     }
 }
 
