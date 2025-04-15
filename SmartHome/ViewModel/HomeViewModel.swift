@@ -9,9 +9,9 @@ import Foundation
 
 class HomeViewModel: ObservableObject {
     @Published var devices: [Device] = [
-        Device(name: "Living Room Light", isOn: false),
-        Device(name: "Kitchen Light", isOn: false),
-        Device(name: "Air Conditioner", isOn: false, tempature: 23)
+        Device(name: "Living Room Light", isOn: false ,type: .light),
+        Device(name: "Kitchen Light", isOn: false ,type: .light),
+        Device(name: "Air Conditioner", isOn: false, tempature: 23 ,type: .airConditioner)
     ]
     
     @Published var rooms: [Room] = []

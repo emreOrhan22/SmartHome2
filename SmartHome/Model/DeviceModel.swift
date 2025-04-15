@@ -12,5 +12,14 @@ struct Device: Identifiable, Codable {
     var name: String
     var isOn : Bool
     var tempature: Int?
+    var type: DeviceType
     
 }
+enum DeviceType: String, Codable {
+    case light
+    case tv
+    case airConditioner
+    case heater
+    case camera
+}
+

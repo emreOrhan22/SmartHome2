@@ -19,11 +19,11 @@ struct AccountView: View {
                     .foregroundColor(.blue)
                     .padding()
                 
-                Text("Ronald Reagan")
+                Text("Example")
                     .font(.title)
                     .bold()
                 
-                Text("ronaldreagen@example.com")
+                Text("example@example.com")
                     .foregroundColor(.gray)
                 
                 
