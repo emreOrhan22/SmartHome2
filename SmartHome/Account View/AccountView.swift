@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AccountView: View {
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = true
+    @AppStorage("isProfileSelected") var isProfileSelected: Bool = true
     
     var body: some View {
         NavigationView{
@@ -31,6 +32,7 @@ struct AccountView: View {
                 
                 Button(action: {
                     isLoggedIn = false
+                    isProfileSelected = false
                 }) {
                 Text("Logout")
                     .foregroundColor(.white)

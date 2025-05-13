@@ -19,7 +19,7 @@ struct DeviceCard: View {
             .hidden()
 
             VStack(spacing: 10) {
-                Image(systemName: device.isOn ? "lightbulb.fill" : "lightbulb")
+                deviceIcon(for: device.type, isOn: device.isOn)
                     .resizable()
                     .frame(width: 40, height: 40)
                     .foregroundColor(device.isOn ? .yellow : .gray)
@@ -33,8 +33,8 @@ struct DeviceCard: View {
                     get: { device.isOn },
                     set: { _ in
                         viewModel.toggleDevice(device)
-                    }
-                ))
+                    })
+                )
                 .labelsHidden()
             }
             .padding()
@@ -42,31 +42,50 @@ struct DeviceCard: View {
             .background(RoundedRectangle(cornerRadius: 15).fill(Color.white))
             .shadow(radius: 5)
             .onTapGesture {
-                if device.isOn && (isThermalDevice(device.name) || isLightDevice(device.name)) {
+                if device.isOn {
                     navigate = true
                 }
             }
         }
     }
 
-    func isThermalDevice(_ name: String) -> Bool {
-        let lowercased = name.lowercased()
-        return lowercased.contains("air") || lowercased.contains("heat") || lowercased.contains("thermo")
-    }
-
-    func isLightDevice(_ name: String) -> Bool {
-        let lowercased = name.lowercased()
-        return lowercased.contains("light") || lowercased.contains("lamp")
-    }
-
-    @ViewBuilder
     func destinationView() -> some View {
-        if isThermalDevice(device.name) {
-            ThermostatView()
-        } else if isLightDevice(device.name) {
-            LightDetailView()
-        } else {
-            Text("No view assigned")
+        switch device.type {
+        case .airConditioner:
+            return AnyView(NavigationWrapperView(title: "Air Conditioner") {
+                AirConditionerDetailView()
+            })
+        case .thermostat:
+            return AnyView(NavigationWrapperView(title: "Thermostat") {
+                ThermostatView()
+            })
+        case .light:
+            return AnyView(NavigationWrapperView(title: "Light Details") {
+                LightDetailView()
+            })
+        case .curtain:
+            return AnyView(NavigationWrapperView(title: "Curtain") {
+                CurtainDetailView()
+            })
+        case .plug:
+            return AnyView(NavigationWrapperView(title: "Smart Plug") {
+                PlugDetailView()
+            })
+        }
+    }
+
+    private func deviceIcon(for type: DeviceType, isOn: Bool) -> Image {
+        switch type {
+        case .light:
+            return Image(systemName: isOn ? "lightbulb.fill" : "lightbulb")
+        case .airConditioner:
+            return Image(systemName: isOn ? "wind" : "wind")
+        case .thermostat:
+            return Image(systemName: isOn ? "thermometer" : "thermometer")
+        case .curtain:
+            return Image(systemName: isOn ? "window.vertical.open" : "window.vertical.closed")
+        case .plug:
+            return Image(systemName: isOn ? "powerplug.fill" : "powerplug")
         }
     }
 }

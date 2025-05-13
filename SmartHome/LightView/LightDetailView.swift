@@ -102,6 +102,9 @@ struct LightDetailView: View {
 
             Spacer()
         }
+        .navigationTitle("Light Details")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(false)
         .padding()
         .background(Color.white.ignoresSafeArea())
     }

@@ -11,8 +11,12 @@ class HomeViewModel: ObservableObject {
     @Published var devices: [Device] = [
         Device(name: "Living Room Light", isOn: false ,type: .light),
         Device(name: "Kitchen Light", isOn: false ,type: .light),
-        Device(name: "Air Conditioner", isOn: false, tempature: 23 ,type: .airConditioner)
+        Device(name: "Air Conditioner", isOn: false, tempature: 23 ,type: .airConditioner),
+        Device(name: "Thermostat", isOn: false, tempature: 21 ,type: .thermostat),
+        Device(name: "Living Room Curtain", isOn: false, type: .curtain),
+        Device(name: "Smart Plug", isOn: false, type: .plug)
     ]
+
     
     @Published var rooms: [Room] = []
 

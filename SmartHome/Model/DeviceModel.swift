@@ -17,9 +17,9 @@ struct Device: Identifiable, Codable {
 }
 enum DeviceType: String, Codable {
     case light
-    case tv
     case airConditioner
-    case heater
-    case camera
+    case curtain
+    case thermostat
+    case plug
 }
 
