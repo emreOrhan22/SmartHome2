@@ -10,9 +10,9 @@ import SwiftUI
 struct RoomDetailView: View {
     @ObservedObject var viewModel = RoomDetailViewModel()
     
-    let roomName: String
-    let roomImageName: String
-    
+    var roomName: String
+    var roomImageName: String
+
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
@@ -38,14 +38,14 @@ struct RoomDetailView: View {
                     }
                     .frame(height: 250)
                     
-                    // Başlık
+                    // Devices title
                     Text("Devices")
                         .font(.title2)
                         .fontWeight(.semibold)
                         .padding(.horizontal)
                         .padding(.top, 10)
                     
-                    // Cihaz kartları
+                    // Device Cards
                     LazyVStack(spacing: 16) {
                         ForEach(viewModel.devices) { device in
                             NavigationLink(destination: viewModel.destinationView(for: device.type)) {
@@ -58,6 +58,7 @@ struct RoomDetailView: View {
                                     VStack(alignment: .leading) {
                                         Text(device.name)
                                             .font(.headline)
+                                            .foregroundColor(.blue)
                                         Text(viewModel.statusText(for: device))
                                             .font(.subheadline)
                                             .foregroundColor(.gray)
@@ -90,8 +91,16 @@ struct RoomDetailView: View {
     }
 }
 
-#Preview {
-    NavigationView {
-        RoomDetailView(roomName: "Living Room", roomImageName: "livingRoomImage")
+
+
+struct RoomDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        NavigationView {
+            RoomDetailView(
+                roomName: "Living Room",
+                roomImageName: "livingRoomImage" // Assets.xcassets içinde tanımlı olmalı
+            )
+        }
     }
 }
+
