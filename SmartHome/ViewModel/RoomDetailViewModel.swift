@@ -14,7 +14,9 @@ class RoomDetailViewModel: ObservableObject {
         devices = [
             Device(name: "Smart Light", isOn: true, tempature: nil, type: .light),
             Device(name: "Air Conditioner", isOn: true, tempature: 23, type: .airConditioner),
-            Device(name: "Smart Curtain", isOn: false, tempature: nil, type: .curtain)
+            Device(name: "Smart Curtain", isOn: false, tempature: nil, type: .curtain),
+            Device(name: "Smart Plug", isOn: false, tempature: nil, type: .plug),
+            Device(name: "Thermostat", isOn: false, tempature: 23, type: .thermostat)
         ]
     }
 
@@ -65,6 +67,10 @@ class RoomDetailViewModel: ObservableObject {
             return AnyView(AirConditionerDetailView())
         case .curtain:
             return AnyView(CurtainDetailView())
+        case .plug:
+            return AnyView(PlugDetailView())
+        case .thermostat:
+            return AnyView(ThermostatView())
         default:
             return AnyView(Text("Coming Soon"))
         }

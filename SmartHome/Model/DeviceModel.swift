@@ -13,6 +13,7 @@ struct Device: Identifiable, Codable {
     var isOn : Bool
     var tempature: Int?
     var type: DeviceType
+    var roomId: UUID?
     
 }
 enum DeviceType: String, Codable {

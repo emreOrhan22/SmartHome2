@@ -13,27 +13,26 @@ struct RoomsView: View {
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
-        GridItem(.flexible())
+        GridItem(.flexible(), spacing: 16)
     ]
+
     
     var body: some View {
-        LazyVGrid(columns: columns, spacing: 16) {
-            ForEach(viewModel.rooms) { room in
-                RoomCard(room: room)
+        ScrollView {
+            LazyVGrid(columns: columns, spacing: 16) {
+                ForEach(viewModel.rooms) { room in
+                    NavigationLink(destination:
+                                    RoomDetailView(roomName: room.name, roomImageName: room.iconName)
+                    ) {
+                        RoomCard(room: room)
+                    }
+                }
             }
-            AddRoomCard {
-                showAddRoomSheet = true
-            }
-        }
-        .padding()
-        .sheet(isPresented: $showAddRoomSheet) {
-                    AddRoomSheetView(viewModel: viewModel, isPresented: $showAddRoomSheet)
+            .padding(.horizontal, 16) 
+            .padding(.top, 8)
         }
     }
 }
-
-
-
 #Preview {
     MainView()
 }
