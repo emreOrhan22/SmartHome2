@@ -15,6 +15,7 @@ class LoginViewModel: ObservableObject {
     @Published var passwordError: String?
 
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+    @AppStorage("isProfileSelected") var isProfileSelected: Bool = false
 
     func login() {
         emailError = nil

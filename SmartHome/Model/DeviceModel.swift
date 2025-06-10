@@ -13,13 +13,14 @@ struct Device: Identifiable, Codable {
     var isOn : Bool
     var tempature: Int?
     var type: DeviceType
+    var roomId: UUID?
     
 }
 enum DeviceType: String, Codable {
     case light
-    case tv
     case airConditioner
-    case heater
-    case camera
+    case curtain
+    case thermostat
+    case plug
 }
 

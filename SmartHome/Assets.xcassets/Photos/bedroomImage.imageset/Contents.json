@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "bedroom.png",
+      "filename" : "bedroom.jpeg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "bedroom 1.png",
+      "filename" : "bedroom 1.jpeg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "bedroom 2.png",
+      "filename" : "bedroom 2.jpeg",
       "idiom" : "universal",
       "scale" : "3x"
     }

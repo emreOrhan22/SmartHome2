@@ -54,17 +54,6 @@ struct LoginView: View {
             .background(Color.purple)
             .foregroundColor(.white)
             .cornerRadius(12)
-
-            Text("or")
-                .foregroundColor(.gray)
-
-            AuthButton(icon: "globe", text: "Continue with Google") {}
-            AuthButton(icon: "phone", text: "Continue with Phone Number") {}
-
-            HStack {
-                Text("Don't have an account?")
-                NavigationLink("Sign up", destination: SignUpView())
-            }
         }
         .padding()
         .dismissKeyboardOnTap()

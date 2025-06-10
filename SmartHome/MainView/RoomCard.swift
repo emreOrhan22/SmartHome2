@@ -11,27 +11,28 @@ struct RoomCard: View {
     let room: Room
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
+        VStack(spacing: 0) {
             Image(room.iconName)
                 .resizable()
-                .scaledToFill()
-                .frame(height: 130)
+                .aspectRatio(contentMode: .fill)
+                .frame(height: 90)
                 .clipped()
-                .cornerRadius(12)
-                .padding(.top, 4) 
-                .padding(.horizontal, 8)
-                .padding(.bottom, 12)
 
             Text(room.name)
-                .font(.headline)
-                .padding([.leading, .bottom, .trailing], 12)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(.blue)
+                .padding(.vertical, 8)
+                .frame(maxWidth: .infinity)
+                .background(Color.white)
         }
-        .frame(height: 200)
         .background(Color.white)
         .cornerRadius(16)
-        .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
+        .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 3)
+        .frame(height: 160)
     }
 }
+
 
 
 struct AddRoomCard: View {

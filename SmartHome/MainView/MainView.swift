@@ -9,14 +9,21 @@ import SwiftUI
 
 struct MainView: View {
     var body: some View {
-        TabView{
+        TabView {
             HomeView()
-                .tabItem{
+                .tabItem {
                     Image(systemName: "house.fill")
                     Text("Home")
                 }
+
+            ScenesView()
+                .tabItem {
+                    Image(systemName: "bolt.circle.fill")
+                    Text("Scenes")
+                }
+
             AccountView()
-                .tabItem{
+                .tabItem {
                     Image(systemName: "person.fill")
                     Text("Account")
                 }
@@ -27,3 +34,4 @@ struct MainView: View {
 #Preview {
     MainView()
 }
+

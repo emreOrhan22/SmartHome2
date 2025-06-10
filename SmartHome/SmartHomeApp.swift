@@ -9,24 +9,31 @@ import SwiftUI
 
 @main
 struct SmartHomeApp: App {
-    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
-    
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = true
+    @AppStorage("isProfileSelected") var isProfileSelected: Bool = false
+    @State private var showWelcome = true
+
     init() {
-            UIView.appearance().overrideUserInterfaceStyle = .light
-        }
+        UserDefaults.standard.set(false, forKey: "isProfileSelected")
+    }
 
     var body: some Scene {
         WindowGroup {
-            NavigationView {
-                if isLoggedIn {
-                    MainView()
+            NavigationStack {
+                if showWelcome {
+                    WelcomeView {
+                        showWelcome = false
+                    }
                 } else {
-                    LoginView()
+                    if !isLoggedIn {
+                        LoginView()
+                    } else if !isProfileSelected {
+                        ProfileSelectionView()
+                    } else {
+                        MainView()
+                    }
                 }
             }
         }
     }
 }
-
-
-

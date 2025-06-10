@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "livingRoom.png",
+      "filename" : "livingroom.jpeg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "livingRoom 1.png",
+      "filename" : "livingroom 1.jpeg",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "livingRoom 2.png",
+      "filename" : "livingroom 2.jpeg",
       "idiom" : "universal",
       "scale" : "3x"
     }
