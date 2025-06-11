@@ -7,20 +7,21 @@
 
 import Foundation
 
-struct Device: Identifiable, Codable {
-    var id: UUID = UUID()
+struct Device: Identifiable, Codable, Equatable {
+    var id: String?
     var name: String
-    var isOn : Bool
-    var tempature: Int?
+    var isOn: Bool
+    var temperature: Int?
     var type: DeviceType
-    var roomId: UUID?
-    
+    var roomId: String?
 }
-enum DeviceType: String, Codable {
+
+enum DeviceType: String, Codable, CaseIterable {
     case light
     case airConditioner
     case curtain
     case thermostat
     case plug
 }
+
 

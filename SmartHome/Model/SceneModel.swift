@@ -5,10 +5,10 @@
 //  Created by Emre on 7.05.2025.
 //
 
-import SwiftUI
+import Foundation
 
-struct SceneModel: Identifiable {
-    let id = UUID()
+struct SceneModel: Identifiable, Codable, Equatable {
+    var id: String?
     var name: String
     var description: String
     var iconName: String

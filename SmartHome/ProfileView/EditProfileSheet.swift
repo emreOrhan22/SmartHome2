@@ -104,7 +104,7 @@ struct EditProfileSheet: View {
         isPresented: .constant(true),
         profile: .constant(
             Profile(
-                id: UUID(),
+                id: UUID().uuidString,
                 name: "Emre",
                 imageName: "father",
                 pin: "1234"

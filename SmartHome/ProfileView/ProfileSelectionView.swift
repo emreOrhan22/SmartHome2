@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct ProfileSelectionView: View {
-    @ObservedObject var viewModel = ProfileViewModel()
+    @ObservedObject var viewModel = ProfileViewModel(profileService: MockProfileService())
+
     @AppStorage("selectedProfile") private var selectedProfileName: String?
     @AppStorage("isProfileSelected") private var isProfileSelected: Bool = false
 
     @State private var showCreationSheet = false
     @State private var animateProfiles: Bool = false
-    @State private var tappedProfileID: UUID? = nil
+    @State private var tappedProfileID: String? = nil
     @State private var startTransition: Bool = false
     @State private var isEditing: Bool = false
     @State private var showDeleteAlert: Bool = false
@@ -44,9 +45,7 @@ struct ProfileSelectionView: View {
                 .animation(.easeInOut.delay(0.1), value: animateProfiles)
 
             LazyVGrid(columns: columns, spacing: 30) {
-                ForEach(viewModel.profiles.indices, id: \.self) { index in
-                    let profile = viewModel.profiles[index]
-
+                ForEach(viewModel.profiles) { profile in
                     ProfileCardView(
                         profile: profile,
                         isEditing: isEditing,

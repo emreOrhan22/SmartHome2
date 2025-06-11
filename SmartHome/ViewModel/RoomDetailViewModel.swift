@@ -12,12 +12,13 @@ class RoomDetailViewModel: ObservableObject {
 
     init() {
         devices = [
-            Device(name: "Smart Light", isOn: true, tempature: nil, type: .light),
-            Device(name: "Air Conditioner", isOn: true, tempature: 23, type: .airConditioner),
-            Device(name: "Smart Curtain", isOn: false, tempature: nil, type: .curtain),
-            Device(name: "Smart Plug", isOn: false, tempature: nil, type: .plug),
-            Device(name: "Thermostat", isOn: false, tempature: 23, type: .thermostat)
+            Device(id: UUID().uuidString, name: "Smart Light", isOn: true, temperature: nil, type: .light, roomId: "1"),
+            Device(id: UUID().uuidString, name: "Air Conditioner", isOn: true, temperature: 23, type: .airConditioner, roomId: "1"),
+            Device(id: UUID().uuidString, name: "Smart Curtain", isOn: false, temperature: nil, type: .curtain, roomId: "1"),
+            Device(id: UUID().uuidString, name: "Smart Plug", isOn: false, temperature: nil, type: .plug, roomId: "1"),
+            Device(id: UUID().uuidString, name: "Thermostat", isOn: false, temperature: 23, type: .thermostat, roomId: "1")
         ]
+
     }
 
     func toggleDevice(_ device: Device) {
@@ -26,7 +27,6 @@ class RoomDetailViewModel: ObservableObject {
         }
     }
 
-    // MARK: - UI Helpers
 
     func iconName(for type: DeviceType) -> String {
         switch type {
@@ -46,9 +46,9 @@ class RoomDetailViewModel: ObservableObject {
     func statusText(for device: Device) -> String {
         switch device.type {
         case .light:
-            return "Brightness: 80%"
+            return "Brightness: 100%"
         case .airConditioner:
-            if let temp = device.tempature {
+            if let temp = device.temperature {
                 return "Temperature: \(temp)°C"
             }
             return "Temperature: N/A"
