@@ -8,23 +8,31 @@
 import SwiftUI
 
 struct RoomCard: View {
-    let room: Room
+    let areaName: String
+    let iconName: String
+    let deviceCount: Int // Sadece sayı geliyor
 
     var body: some View {
         VStack(spacing: 0) {
-            Image(room.iconName)
+            Image(iconName)
                 .resizable()
                 .aspectRatio(contentMode: .fill)
                 .frame(height: 90)
                 .clipped()
 
-            Text(room.name)
-                .font(.subheadline)
-                .fontWeight(.semibold)
-                .foregroundColor(.blue)
-                .padding(.vertical, 8)
-                .frame(maxWidth: .infinity)
-                .background(Color.white)
+            VStack(spacing: 4) {
+                Text(areaName.replacingOccurrences(of: "_", with: " ").capitalized)
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.blue)
+
+                Text("\(deviceCount) device\(deviceCount != 1 ? "s" : "")")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+            }
+            .padding(.vertical, 8)
+            .frame(maxWidth: .infinity)
+            .background(Color.white)
         }
         .background(Color.white)
         .cornerRadius(16)
@@ -33,31 +41,10 @@ struct RoomCard: View {
     }
 }
 
-
-
-struct AddRoomCard: View {
-    var onTap: () -> Void
-
-    var body: some View {
-        Button(action: onTap) {
-            VStack(spacing: 12) {
-                Image(systemName: "plus.circle.fill")
-                    .resizable()
-                    .frame(width: 40, height: 40)
-                    .foregroundColor(.purple)
-                Text("Add Room")
-                    .fontWeight(.medium)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .padding()
-        }
-        .frame(height: 200)
-        .background(Color.white)
-        .cornerRadius(16)
-        .shadow(color: .gray.opacity(0.3), radius: 6, x: 0, y: 4)
-    }
-}
-
 #Preview {
-    RoomCard(room: Room(name: "Kitchen", type: "Kitchen", iconName: "kitchenImage"))
+    RoomCard(
+        areaName: "living_room",
+        iconName: "livingRoomImage",
+        deviceCount: 3
+    )
 }

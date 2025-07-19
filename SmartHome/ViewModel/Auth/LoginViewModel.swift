@@ -9,35 +9,34 @@ import Foundation
 import SwiftUI
 
 class LoginViewModel: ObservableObject {
-    @Published var email = ""
+    @Published var username = ""
     @Published var password = ""
 
-    @Published var emailError: String?
+    @Published var usernameError: String?
     @Published var passwordError: String?
     @Published var generalError: String?
 
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+    @AppStorage("token") var token: String = ""
 
-    private let authService: AuthServiceProtocol
-
-    init(authService: AuthServiceProtocol = MockAuthService()) {
-        self.authService = authService
-    }
-
-    func login() {
-        emailError = nil
+    func login() async -> Bool {
+        usernameError = nil
         passwordError = nil
         generalError = nil
 
-        Task {
-            do {
-                let success = try await authService.login(email: email, password: password)
-                if success {
-                    isLoggedIn = true
-                }
-            } catch {
-                generalError = error.localizedDescription
+        do {
+            let receivedToken = try await APIService.login(username: username, password: password)
+            DispatchQueue.main.async {
+                self.token = receivedToken
+                self.isLoggedIn = true
             }
+            return true
+        } catch {
+            DispatchQueue.main.async {
+                self.generalError = "Login Failed: \(error.localizedDescription)"
+            }
+            return false
         }
     }
 }
+

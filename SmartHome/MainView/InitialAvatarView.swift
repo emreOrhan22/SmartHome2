@@ -34,12 +34,5 @@ struct InitialAvatarView: View {
     }
 }
 
-#Preview {
-    HStack(spacing: 12) {
-        InitialAvatarView(name: "Simay Çevik")
-        InitialAvatarView(name: "Emre Orhan")
-    }
-    .padding()
-    .previewLayout(.sizeThatFits)
-}
+
 

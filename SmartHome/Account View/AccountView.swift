@@ -10,37 +10,38 @@ import SwiftUI
 struct AccountView: View {
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = true
     @AppStorage("isProfileSelected") var isProfileSelected: Bool = true
-    
+    @AppStorage("selectedProfile") var selectedProfile: String?
+
     var body: some View {
-        NavigationView{
-            VStack{
+        NavigationView {
+            VStack {
                 Image(systemName: "person.circle.fill")
                     .resizable()
                     .frame(width: 100, height: 100)
                     .foregroundColor(.blue)
                     .padding()
-                
-                Text("Example")
+
+                Text(selectedProfile ?? "Unknown")
                     .font(.title)
                     .bold()
-                
-                Text("example@example.com")
+
+                Text("example@example.com") // burada istersen profil modelinden mail çekebilirsin
                     .foregroundColor(.gray)
-                
-                
+
                 Spacer()
-                
+
                 Button(action: {
                     isLoggedIn = false
                     isProfileSelected = false
+                    selectedProfile = nil
                 }) {
-                Text("Logout")
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.red)
-                    .cornerRadius(10)
-                    .padding(.horizontal)
+                    Text("Logout")
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.red)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
                 }
                 .padding(.bottom, 30)
             }
@@ -48,6 +49,7 @@ struct AccountView: View {
         }
     }
 }
+
 
 #Preview {
     AccountView()

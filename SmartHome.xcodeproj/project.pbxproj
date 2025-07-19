@@ -10,9 +10,22 @@
 		C3AF53002D8C369900F1772B /* SmartHome.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SmartHome.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		CD6F2AB12E0973DA00E1DFB2 /* Exceptions for "SmartHome" folder in "SmartHome" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = C3AF52FF2D8C369900F1772B /* SmartHome */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		C3AF53022D8C369900F1772B /* SmartHome */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				CD6F2AB12E0973DA00E1DFB2 /* Exceptions for "SmartHome" folder in "SmartHome" target */,
+			);
 			path = SmartHome;
 			sourceTree = "<group>";
 		};
@@ -255,6 +268,7 @@
 				DEVELOPMENT_TEAM = 5NNTQS3VMB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SmartHome/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -285,6 +299,7 @@
 				DEVELOPMENT_TEAM = 5NNTQS3VMB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SmartHome/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

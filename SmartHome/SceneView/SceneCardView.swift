@@ -48,19 +48,5 @@ struct SceneCardView: View {
     }
 }
 
-#Preview {
-    SceneCardView(
-        scene: SceneModel(
-            name: "Relax",
-            description: "Lights at 50%, Curtains closed, AC set to 23°C",
-            iconName: "sofa.fill",
-            iconColorHex: "#4A90E2",
-            isActive: true
-        ),
-        isActive: true,
-        onToggle: { print("Toggled") }
-    )
-    .previewLayout(.sizeThatFits)
-    .padding()
-}
+
 

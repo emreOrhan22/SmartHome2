@@ -9,57 +9,66 @@ import SwiftUI
 
 struct LoginView: View {
     @StateObject private var viewModel = LoginViewModel()
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+    @State private var navigateToProfile = false
 
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: 24) {
+            Spacer()
+
             Text("Log In")
                 .font(.largeTitle)
-                .bold()
+                .fontWeight(.bold)
 
-            TextField("Email", text: $viewModel.email)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(viewModel.emailError != nil ? Color.red : Color.clear, lineWidth: 1)
-                )
-            if let error = viewModel.emailError {
-                Text(error)
+            VStack(spacing: 16) {
+                TextField("Username", text: $viewModel.username)
+                    .autocapitalization(.none)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+
+                SecureField("Password", text: $viewModel.password)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+            }
+            .padding(.horizontal)
+
+            if let error = viewModel.generalError {
+                Text("Login Failed: \(error)")
                     .foregroundColor(.red)
-                    .font(.caption)
-                    .padding(.leading, 4)
+                    .font(.footnote)
+                    .padding(.horizontal)
             }
 
-            SecureField("Password", text: $viewModel.password)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(8)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(viewModel.passwordError != nil ? Color.red : Color.clear, lineWidth: 1)
-                )
-            if let error = viewModel.passwordError {
-                Text(error)
-                    .foregroundColor(.red)
-                    .font(.caption)
-                    .padding(.leading, 4)
+            Button(action: {
+                Task {
+                    let success = await viewModel.login()
+                    if success {
+                        isLoggedIn = true
+                        navigateToProfile = true
+                    }
+                }
+            }) {
+                Text("Log In")
+                    .fontWeight(.semibold)
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.purple)
+                    .foregroundColor(.white)
+                    .cornerRadius(12)
             }
+            .padding(.horizontal)
 
-            Button("Log In") {
-                viewModel.login()
-            }
-            .frame(maxWidth: .infinity)
-            .padding()
-            .background(Color.purple)
-            .foregroundColor(.white)
-            .cornerRadius(12)
+            Spacer()
         }
-        .padding()
-        .dismissKeyboardOnTap()
+        .background(Color.white)
+        .ignoresSafeArea(.keyboard, edges: .bottom)
+        .fullScreenCover(isPresented: $navigateToProfile) {
+            ProfileSelectionView()
         }
     }
-
+}
 
 
 #Preview {

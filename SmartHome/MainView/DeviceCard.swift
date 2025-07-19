@@ -7,116 +7,80 @@
 import SwiftUI
 
 struct DeviceCard: View {
-    var device: Device
-    @ObservedObject var viewModel: HomeViewModel
-    @State private var navigate = false
+    let log: DeviceLog
 
     var body: some View {
-        ZStack {
-            NavigationLink(destination: destinationView(), isActive: $navigate) {
-                EmptyView()
+        HStack(spacing: 16) {
+            // Renkli ikon kutusu
+            ZStack {
+                RoundedRectangle(cornerRadius: 10)
+                    .fill(backgroundColor(for: log.type))
+                    .frame(width: 50, height: 50)
+
+                deviceIcon(for: log.type, isOn: log.state == "on")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 24, height: 24)
+                    .foregroundColor(.white)
             }
-            .hidden()
 
-            HStack(spacing: 16) {
-                // Renkli ikon kutusu
-                ZStack {
-                    RoundedRectangle(cornerRadius: 10)
-                        .fill(backgroundColor(for: device.type))
-                        .frame(width: 50, height: 50)
+            VStack(alignment: .leading, spacing: 6) {
+                Text(log.type)
+                    .font(.headline)
+                    .foregroundColor(.black)
 
-                    deviceIcon(for: device.type, isOn: device.isOn)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 24, height: 24)
-                        .foregroundColor(.white)
-                }
+                Text("Oda: \(log.area.capitalized)")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(device.name)
-                        .font(.headline)
-                        .foregroundColor(.black)
-
-                    Text(viewModel.statusText(for: device))
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                }
-
-                Spacer()
-
-                Toggle("", isOn: Binding(
-                    get: { device.isOn },
-                    set: { _ in
-                        viewModel.toggleDevice(device)
-                    })
-                )
-                .labelsHidden()
+                Text("Durum: \(log.state.capitalized) • Seviye: \(log.level.uppercased())")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
             }
-            .padding()
-            .background(Color.white)
-            .cornerRadius(16)
-            .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 3)
-            .onTapGesture {
-                if device.isOn {
-                    navigate = true
-                }
-            }
+
+            Spacer()
+
+            Image(systemName: log.state == "on" ? "power.circle.fill" : "power.circle")
+                .foregroundColor(log.state == "on" ? .green : .gray)
+                .font(.system(size: 24))
         }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(16)
+        .shadow(color: .gray.opacity(0.2), radius: 4, x: 0, y: 2)
     }
 
-    // Navigasyon
-    func destinationView() -> some View {
-        switch device.type {
-        case .airConditioner:
-            return AnyView(NavigationWrapperView(title: "Air Conditioner") {
-                AirConditionerDetailView()
-            })
-        case .thermostat:
-            return AnyView(NavigationWrapperView(title: "Thermostat") {
-                ThermostatView()
-            })
-        case .light:
-            return AnyView(NavigationWrapperView(title: "Light Details") {
-                LightDetailView()
-            })
-        case .curtain:
-            return AnyView(NavigationWrapperView(title: "Curtain") {
-                CurtainDetailView()
-            })
-        case .plug:
-            return AnyView(NavigationWrapperView(title: "Smart Plug") {
-                PlugDetailView()
-            })
-        }
-    }
-
-    // İkonlar
-    private func deviceIcon(for type: DeviceType, isOn: Bool) -> Image {
-        switch type {
-        case .light:
+    // İkon seçimi
+    private func deviceIcon(for type: String, isOn: Bool) -> Image {
+        switch type.lowercased() {
+        case "light", "smart light":
             return Image(systemName: isOn ? "lightbulb.fill" : "lightbulb")
-        case .airConditioner:
-            return Image(systemName: isOn ? "wind" : "wind")
-        case .thermostat:
-            return Image(systemName: isOn ? "thermometer" : "thermometer")
-        case .curtain:
+        case "air conditioner":
+            return Image(systemName: "wind")
+        case "thermostat":
+            return Image(systemName: "thermometer")
+        case "smart curtain", "curtain":
             return Image(systemName: isOn ? "window.vertical.open" : "window.vertical.closed")
-        case .plug:
+        case "smart plug", "plug":
             return Image(systemName: isOn ? "powerplug.fill" : "powerplug")
+        default:
+            return Image(systemName: "questionmark.circle")
         }
     }
 
-    // Arka plan rengi
-    private func backgroundColor(for type: DeviceType) -> Color {
-        switch type {
-        case .light: return Color.yellow.opacity(0.8)
-        case .airConditioner: return Color.blue.opacity(0.7)
-        case .thermostat: return Color.orange.opacity(0.7)
-        case .curtain: return Color.purple.opacity(0.7)
-        case .plug: return Color.green.opacity(0.7)
+    // Renk seçimi
+    private func backgroundColor(for type: String) -> Color {
+        switch type.lowercased() {
+        case "light", "smart light": return Color.yellow.opacity(0.8)
+        case "air conditioner": return Color.blue.opacity(0.7)
+        case "thermostat": return Color.orange.opacity(0.7)
+        case "smart curtain", "curtain": return Color.purple.opacity(0.7)
+        case "smart plug", "plug": return Color.green.opacity(0.7)
+        default: return Color.gray.opacity(0.4)
         }
     }
 }
+
 
 
 #Preview {

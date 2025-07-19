@@ -12,6 +12,7 @@ struct ProfileSelectionView: View {
 
     @AppStorage("selectedProfile") private var selectedProfileName: String?
     @AppStorage("isProfileSelected") private var isProfileSelected: Bool = false
+    @State private var navigateToMain = false
 
     @State private var showCreationSheet = false
     @State private var animateProfiles: Bool = false
@@ -57,6 +58,7 @@ struct ProfileSelectionView: View {
                             } else {
                                 selectedProfileName = profile.name
                                 isProfileSelected = true
+                                navigateToMain = true
                             }
                         },
                         onDelete: {
@@ -103,12 +105,15 @@ struct ProfileSelectionView: View {
         .onAppear {
             viewModel.loadProfiles()
             animateProfiles = true
+
+            if isProfileSelected {
+                navigateToMain = true
+            }
         }
         .sheet(isPresented: $showCreationSheet) {
             ProfileCreationSheet(isPresented: $showCreationSheet, viewModel: viewModel) {
                 viewModel.loadProfiles()
             }
-            .transition(.move(edge: .bottom).combined(with: .opacity))
         }
         .sheet(isPresented: $showEditSheet) {
             if let profile = profileToEdit {
@@ -134,9 +139,10 @@ struct ProfileSelectionView: View {
                 secondaryButton: .cancel()
             )
         }
-        .overlay(
-            pinPromptOverlay()
-        )
+        .overlay(pinPromptOverlay())
+        .fullScreenCover(isPresented: $navigateToMain) {
+            MainView()
+        }
     }
 
     // PIN giriş ekranı
@@ -175,11 +181,12 @@ struct ProfileSelectionView: View {
                         }
                     }
                     .onChange(of: enteredPin) { newValue in
-                        enteredPin = newValue.filter { $0.isNumber }
+                        enteredPin = newValue.filter { $0.isNumber }.prefix(4).description
                         if enteredPin.count == 4 {
                             if enteredPin == profile.pin {
                                 selectedProfileName = profile.name
                                 isProfileSelected = true
+                                navigateToMain = true
                                 showPinPrompt = false
                                 enteredPin = ""
                             } else {
@@ -209,7 +216,7 @@ struct ProfileSelectionView: View {
     }
 }
 
-// Shake effect aynı kalıyor
+// Shake effect (PIN yanlışsa titreşim animasyonu)
 struct ShakeEffect: GeometryEffect {
     var shakes: Int
     var amount: CGFloat = 6
@@ -231,3 +238,4 @@ struct ShakeEffect: GeometryEffect {
         ProfileSelectionView()
     }
 }
+

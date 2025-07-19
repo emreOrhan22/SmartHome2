@@ -24,6 +24,3 @@ struct PasswordRequirementRow: View {
 
 
 
-#Preview {
-    SignUpView()
-}

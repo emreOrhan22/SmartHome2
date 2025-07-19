@@ -45,13 +45,6 @@ class RoomDetailViewModel: ObservableObject {
 
     func statusText(for device: Device) -> String {
         switch device.type {
-        case .light:
-            return "Brightness: 100%"
-        case .airConditioner:
-            if let temp = device.temperature {
-                return "Temperature: \(temp)°C"
-            }
-            return "Temperature: N/A"
         case .curtain:
             return device.isOn ? "OPENED" : "CLOSED"
         default:

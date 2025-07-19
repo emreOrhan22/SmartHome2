@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AirConditionerDetailView: View {
     @State private var temperature: Double = 24.0
-    @State private var isOn: Bool = true
+    @State private var isOn: Bool = false
     @State private var selectedMode: String = "Cool"
     @State private var selectedFan: String = "Auto"
     @State private var isSwingOn: Bool = false
@@ -31,24 +31,26 @@ struct AirConditionerDetailView: View {
 
             HStack(spacing: 40) {
                 Button(action: {
-                    if temperature > 16.0 {
-                        temperature -= 0.5
-                    }
+                    temperature -= 1.0
                 }) {
                     Image(systemName: "chevron.down.circle.fill")
                         .font(.system(size: 48))
                         .foregroundColor(.blue)
                 }
+                .disabled(temperature <= 16.0)
+                .opacity(temperature <= 16.0 ? 0.4 : 1.0)
 
                 Button(action: {
-                    if temperature < 30.0 {
-                        temperature += 0.5
-                    }
+                    temperature += 1.0
                 }) {
                     Image(systemName: "chevron.up.circle.fill")
                         .font(.system(size: 48))
                         .foregroundColor(.blue)
                 }
+                .disabled(temperature >= 30.0)
+                .opacity(temperature >= 30.0 ? 0.4 : 1.0)
+
+
             }
 
             VStack(alignment: .leading, spacing: 10) {
